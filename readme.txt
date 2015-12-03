@@ -33,7 +33,7 @@ mvn dependency:list
 #=======================常用指令=======================
 mvn clean install -Dmaven.ext.skip=true -Pdemo
 
-
+注意:
 因为snapshot是定时从maven私服上取，而非实时，可通过以下命令强制从maven私服上取最新jar包
 mvn clean package -Dmaven.ext.skip=true -U
 
