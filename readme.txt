@@ -30,7 +30,6 @@ mvn dependency:list
 
 
 
-
 #=======================常用指令=======================
 mvn clean install -Dmaven.ext.skip=true -Pdemo
 
