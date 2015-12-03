@@ -1,0 +1,1 @@
+http://docs.jboss.org/hibernate/validator/4.2/reference/zh-CN/html_single/#validator-defineconstraints-spec

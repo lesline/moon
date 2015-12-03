@@ -1,0 +1,72 @@
+<html>
+<head>
+    <title>moon</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+
+    <!--  库文件——样式加载  -->
+    <link rel="stylesheet" type="text/css" href="ext-4/resources/css/ext-all-neptune.css">
+    <script type="text/javascript" src="ext-4/ext-all.js"></script>
+    <script type="text/javascript" src="ext-4/locale/ext-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        function init() {
+            Ext.data.validations.lengthMessage = "长度错误";
+            Ext.apply(Ext.data.validations, {
+                ageMessage: '必须在0到150之间',
+                age: function (config, value) {
+                    if (value === undefined || value === null) {
+                        return false;
+                    }
+
+                    if (value < 0 || value > 150) {
+                        return false;
+                    }
+
+                    return true;
+                }
+            });
+            Ext.define('MyApp.User', {
+                extend: 'Ext.data.Model',
+                fields: [
+                    { name: 'name', type: 'string' },
+                    { name: 'age', type: 'int' },
+                    { name: 'phone', type: 'string' },
+                    {
+                        name: 'birthday',
+                        type: 'date',
+                        convert: function (value, record) {
+                            if (Ext.isDate(value))
+                                return value;
+                            else if (Ext.isString(value)) {
+                                return Ext.Date.parse(value, "Y-m-d");
+                            }
+                        }
+                    }
+                ],
+                validations: [
+                    { field: 'phone', type: 'length', min: 8, max: 15 },
+                    { field: 'age', type: 'age', min: 8, max: 15 }
+                ]
+            });
+
+
+            var Tom = Ext.create("MyApp.User", {
+                name: 'Tom',
+                age: -26,
+                phone: '123456',
+                birthday:'2000-01-15'
+            });
+            var errors = Tom.validate();
+            var errorMsg = [];
+            if (!errors.isValid()) {
+                errors.each(function (error) {
+                    errorMsg.push(error.field + "   " + error.message);
+                });
+                Ext.Msg.alert("错误", errorMsg.join('<br />'));
+            }
+        }
+        Ext.onReady(init);
+    </script>
+</head>
+<body></body>
+</html>

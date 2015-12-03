@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/moon-base/moon-base.iml" filepath="$PROJECT_DIR$/moon-base/moon-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moon-common/moon-common.iml" filepath="$PROJECT_DIR$/moon-common/moon-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moon-dao/moon-dao.iml" filepath="$PROJECT_DIR$/moon-dao/moon-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moon-parent.iml" filepath="$PROJECT_DIR$/moon-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moon-service/moon-service.iml" filepath="$PROJECT_DIR$/moon-service/moon-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moon-spring/moon-spring.iml" filepath="$PROJECT_DIR$/moon-spring/moon-spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moon-thread/moon-thread.iml" filepath="$PROJECT_DIR$/moon-thread/moon-thread.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moon-web/moon-web.iml" filepath="$PROJECT_DIR$/moon-web/moon-web.iml" />
+    </modules>
+  </component>
+</project>

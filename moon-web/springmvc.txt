@@ -1,0 +1,30 @@
+controller中@ResponseBody说明此controller不进行视图跳转
+，在这里的作用就是将数据库中的数据转换成Extjs需要的Json，让前端grid使用。
+
+
+
+
+@RequestBody
+将 HTTP 请求正文插入方法中,使用适合的HttpMessageConverter将请求体写入某个对象。
+@RequestBody
+作用：
+      i) 该注解用于读取Request请求的body部分数据，使用系统默认配置的HttpMessageConverter进行解析，然后把相应的数据绑定到要返回的对象上；
+      ii) 再把HttpMessageConverter返回的对象数据绑定到 controller中方法的参数上。
+
+
+@ResponseBody
+作用： 该注解用于将Controller的方法返回的对象，通过适当的HttpMessageConverter转换为指定格式后，写入到Response对象的body数据区。
+使用时机：
+     返回的数据不是html标签的页面，而是其他某种格式的数据时（如json、xml等）使用；
+
+
+
+@Conumes 和 @Produces
+
+@Consumes 注释代表的是一个资源可以接受的 MIME 类型。
+@Produces 注释代表的是一个资源可以返回的 MIME 类型。
+
+
+@RequestMapping(value = CmmURLConstant.URL_4001, method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+@ResponseBody
+public ResponseEntity<ResponseMsg<Object>> saveCreditinfo(@RequestBody Request4001DTO requestBody){

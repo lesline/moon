@@ -1,0 +1,27 @@
+[
+  {
+    "text": "交易",
+    "mid": "1",
+    "cls": "folder",
+    "leaf": false,
+    "expanded": true,
+    "children": [
+      {
+        "text": "用户列表",
+        "mid": "2",
+        "cls": "file",
+        "url": "UserList",
+        "leaf": true,
+        "children": []
+      },
+      {
+        "text": "客户列表",
+        "mid": "3",
+        "cls": "file",
+        "url": "CustomerList",
+        "leaf": true,
+        "children": []
+      }
+    ]
+  }
+]

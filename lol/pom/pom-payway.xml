@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.ezubo.global</groupId>
+    <artifactId>payway-parent</artifactId>
+    <name>${project.artifactId}</name>
+    <version>1.2.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <properties>
+        <module.version>1.2.0-SNAPSHOT</module.version>
+        <module.war.name>payway</module.war.name>
+        <springframework.version>3.2.4.RELEASE</springframework.version>
+        <spring.ws.version>2.0.0.RELEASE</spring.ws.version>
+        <mybatis-generator.version>1.3.2</mybatis-generator.version>
+        <mybatis-spring.version>1.2.2</mybatis-spring.version>
+        <mybatis.version>3.2.7</mybatis.version>
+        <slf4j-version>1.7.5</slf4j-version>
+        <log4j-version>1.2.17</log4j-version>
+        <log4j2-version>2.3</log4j2-version>
+        <commons-io-version>2.4</commons-io-version>
+        <commons-lang-version>2.6</commons-lang-version>
+        <commons-beanutils-version>1.8.3</commons-beanutils-version>
+        <commons-logging-version>1.1.3</commons-logging-version>
+        <commons-collections-version>3.2.1</commons-collections-version>
+        <fastjson.version>1.2.6</fastjson.version>
+
+        <jetty.version>7.0.0.pre5</jetty.version>
+        <zkclient.version>0.5</zkclient.version>
+        <dubbo.version>2.5.3</dubbo.version>
+        <hessian.version>4.0.3806</hessian.version>
+        <curator-framework.version>1.3.3</curator-framework.version>
+        <jetty-util.version>7.0.0.pre5</jetty-util.version>
+        <global-common.version>1.3.2-SNAPSHOT</global-common.version>
+        <global-task-client.version>1.1-SNAPSHOT</global-task-client.version>
+        <uc-service-api.version>1.0-SNAPSHOT</uc-service-api.version>
+    </properties>
+    <profiles>
+    	<!-- 1. 操作系统环境  start-->
+        <profile>
+            <id>Windows</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <properties>
+                <path.prefix>d:\</path.prefix>
+            </properties>
+        </profile>
+       <profile>
+          <id>mac</id>
+          <activation>
+              <os>
+                  <family>mac</family>
+              </os>
+          </activation>
+          <properties>
+              <path.prefix>/</path.prefix>
+          </properties>
+       </profile>
+       <profile>
+          <id>Linux</id>
+          <activation>
+              <os>
+                  <family>Linux</family>
+              </os>
+          </activation>
+          <properties>
+              <path.prefix>/</path.prefix>
+          </properties>
+       </profile>
+       <!-- 1. 操作系统环境 end-->
+        <profile>
+            <id>local</id>
+            <activation>
+                <os><family>Windows</family></os>
+            </activation>
+            <properties>
+                <env.name>local/local</env.name>
+            </properties>
+        </profile>
+       
+        <profile>
+            <id>local-mac</id>
+            <activation>
+                <os><family>mac</family></os>
+            </activation>
+            <properties>
+                <env.name>local/local</env.name>
+            </properties>
+        </profile>
+		
+		<profile>
+	  		<id>dev</id>
+	  		<properties>
+	  			<env.name>dev/dev</env.name>
+	  		</properties>
+	  	</profile>
+		
+        <profile>
+	  		<id>test</id>
+	  		<properties>
+	  			<env.name>test/test</env.name>
+	  		</properties>
+	  	</profile>
+		  <profile>
+		     <id>sit</id>
+		     <properties>
+		         <env.name>sit/sit</env.name>
+		     </properties>
+		 </profile>
+       	 <profile>
+		     <id>pro</id>
+		     <properties>
+		         <env.name>pro/pro</env.name>
+		     </properties>
+		 </profile>
+		 <profile>
+		     <id>pro-lilac</id>
+		     <properties>
+		         <env.name>pro/pro-lilac</env.name>
+		     </properties>
+		 </profile>
+        <profile>
+            <id>pro-lilac2</id>
+            <properties>
+                <env.name>pro/pro-lilac2</env.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>uat</id>
+            <properties>
+                <env.name>pro/uat</env.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>pre</id>
+            <properties>
+                <env.name>pro/pre</env.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>demo</id>
+            <properties>
+                <env.name>pro/demo</env.name>
+            </properties>
+        </profile>
+    </profiles>
+     <build>
+    	<filters>
+	  		<filter>${project.basedir}/../profile/${env.name}.properties</filter>
+	  		<!-- <filter>${project.basedir}/../profile/${env.name}/${env.name}-${env.host}.properties</filter> -->
+  		</filters>
+  		<resources>
+	  		<!-- 保证所有的resources下的配置文件能被编译打包 -->
+	  		<resource>
+	            <directory>src/main/resources</directory>
+	            <includes>
+	                <include>**/*.*</include>
+	            </includes>
+	            <filtering>false</filtering>
+	        </resource>
+	        <!-- 保证resources下的所有的properties配置文件可以被过滤-->
+	  		<resource>
+  			<directory>src/main/resources</directory>
+  			<includes>
+	  				<include>**/*.properties</include>
+	  				<include>**/*.xml</include>	
+  			</includes>
+	  			
+  			<filtering>true</filtering>
+	  		</resource>
+	  	
+	  	</resources>
+  		
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test*.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            
+             <plugin> 
+	            <groupId>org.apache.maven.plugins</groupId> 
+	            <artifactId>maven-resources-plugin</artifactId> 
+	            <version>2.6</version>
+	            <configuration> 
+	                <encoding>UTF-8</encoding> 
+	            </configuration> 
+	        </plugin>             
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- eclipse plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+
+
+</project>

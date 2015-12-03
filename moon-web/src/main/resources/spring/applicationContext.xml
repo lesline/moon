@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:/config/moon.properties</value>
+        </property>
+    </bean>
+
+    <bean id="logAop" class="com.moon.common.util.log.DebugAop"/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!--
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    proxy-target-class="true"：强制使用CGLIB代理；
+    默认为false，表示使用jdk动态代理织入增强，true为时，表示使用CGLib动态代理技术织入增强。当设置为false，如果目标类没有声明接口，则spring将自动使用CGLib动态代理。
+    expose-proxy属性 当目标对象内部的自我调用无法实施切面时增加
+
+    Cglib动态代理与JDK的动态代理区别：
+    JDK的动态代理机制只能代理实现了接口的类，而不能实现接口的类就不能实现JDK的动态代理，
+    cglib是针对类来实现代理的，他的原理是对指定的目标类生成一个子类，并覆盖其中方法实现增强，但因为采用的是继承，所以不能对final修饰的类进行代理。
+    -->
+    <context:annotation-config/>
+
+    <!-- 使用annotation 自动注册bean, 并保证@Required、@Resource的属性被注入  将 Controller 排除-->
+    <context:component-scan base-package="com.moon">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+
+    <!--
+    注解
+    方法一:
+    <context:annotation-config/>
+    作用：向Spring容器注册4个BeanPostProcessor，能够识别相应的注解。
+
+    代替
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+    BeanPostProcessor与注解对应关系:
+    AutowiredAnnotationBeanPostProcessor     @Autowired注解
+    CommonAnnotationBeanPostProcessor        @Resource、@PostConstruct、@PreDestroy等注解
+    PersistenceAnnotationBeanPostProcessor   @PersistenceContext
+    RequiredAnnotationBeanPostProcessor      @Required
+
+
+    方法二:
+    <context:component-scan base-package=”XX.XX”/>
+    作用：可取代 <context:annotation-config/>
+
+    该配置项其实也包含了自动注入上述processor的功能，还可以配置扫描包路径选项
+
+    区别:
+    <context:annotation-config />是用于激活那些已经在spring容器里注册过的bean（无论是通过xml的方式还是通过package sanning的方式）上面的注解。
+    <context:component-scan>包含以上功能外，还具有自动将带有@Component, @Repository, @Service, and @Controller 等注解的对象注册到spring容器中的功能
+    -->
+    <import resource="classpath:/spring/moon-transaction.xml"/>
+    <!--<import resource="classpath:/spring/moon-server.xml"/>-->
+    <!--<import resource="classpath:/spring/spring-quartz.xml"/>-->
+
+
+</beans>

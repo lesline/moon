@@ -1,0 +1,80 @@
+<html>
+<head>
+    <title>moon</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+
+    <!--  库文件——样式加载  -->
+    <link rel="stylesheet" type="text/css" href="ext-4/resources/css/ext-all-neptune.css">
+    <script type="text/javascript" src="ext-4/ext-all.js"></script>
+    <script type="text/javascript" src="ext-4/locale/ext-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        function init() {
+            Ext.define('Person', {
+                extend: 'Ext.data.Model',
+                fields: ['name', 'age']
+            });
+            var personStore = Ext.create("Ext.data.Store", {
+                model: 'Person'
+            });
+            var personProxy = new Ext.data.proxy.LocalStorage({
+                id: 'Person_LocalStorage',
+                model: 'Person'
+            });
+
+            personStore.setProxy(personProxy);
+
+
+            personStore.load();
+            personStore.removeAll();
+            personStore.sync();
+
+            personStore.add({name: '换名前', age: 1});
+            personStore.add({name: 'www.qeefee.com', age: 11});
+            personStore.add({name: 'qf', age: 26});
+            personStore.add({name: 'qifei', age: 26});
+            personStore.sync();
+
+
+            personStore.load();
+
+
+//            personStore.filter("name", /\.com$/);
+//            personStore.filter(function (item) {
+//                return item.get("age") > 10 && item.get('name').length > 3;
+//            });
+
+            var msg = [];
+            personStore.each(function (person) {
+                msg.push(person.get('name') + ' ' + person.get('age'));
+            });
+
+            Ext.MessageBox.alert('提示', msg.join('<br />'));
+
+
+            var func1 = function (personStore) {
+                var person = personStore.first();
+                //修改名字字段
+                person.set('name', '换名后');
+                //保存到本地
+                personStore.sync();
+                personStore.load();
+
+                var msg = [];
+                personStore.each(function (person) {
+                    msg.push(person.get('name') + ' ' + person.get('age'));
+                });
+                Ext.MessageBox.alert('提示', msg.join('<br />'));
+
+            };
+
+            Ext.defer(func1, 3000, this, [personStore]);
+
+        }
+
+
+        Ext.onReady(init);
+    </script>
+</head>
+<body></body>
+</html>

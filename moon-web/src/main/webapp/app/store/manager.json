@@ -1,0 +1,18 @@
+[
+  {
+    "text": "用户列表",
+    "id": "2",
+    "cls": "file",
+    "url": "sys.UserController",
+    "leaf": true,
+    "children": []
+  },
+  {
+    "text": "客户列表",
+    "id": "3",
+    "cls": "file",
+    "url": "sys.CustomerController",
+    "leaf": true,
+    "children": []
+  }
+]

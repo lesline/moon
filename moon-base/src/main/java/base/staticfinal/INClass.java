@@ -1,0 +1,1 @@
+package base.staticfinal;public class INClass{    void innerClass(final int str){         class IClass{             IClass(){                             System.out.println(str);             }         }         IClass ic=new IClass();     }   public static void main(String[] args){       INClass inc=new INClass();       inc.innerClass(1);   } } 

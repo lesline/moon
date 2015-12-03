@@ -1,0 +1,360 @@
+<html>
+<head>
+    <title>moon</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+
+    <!--  库文件——样式加载  -->
+    <link rel="stylesheet" type="text/css" href="ext-4/resources/css/ext-all-neptune.css">
+    <script type="text/javascript" src="ext-4/ext-all.js"></script>
+    <script type="text/javascript" src="ext-4/locale/ext-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(init);
+
+        function init() {
+            container();
+            anchor();
+            absolute();
+            column();
+            border();
+            accordion();
+            Card();
+            fit();
+            form();
+            table();
+            hbox();
+            vbox();
+        }
+
+        function container() {
+            var panel = Ext.create("Ext.panel.Panel", {
+                title: "Auto Layout",
+                width: 500,
+                height: 400,
+                items: [
+                    {xtype: "panel", title: "第一个子Panel", width: 200, height: 100},
+                    {xtype: "panel", title: "第二个子Panel", width: 150, height: 100},
+                    {xtype: "textfield", width: 300, fieldLabel: "请输入用户名"}
+                ],
+                renderTo: "container"
+            });
+        }
+        function anchor() {
+            Ext.create("Ext.panel.Panel", {
+                width: 500,
+                height: 400,
+                title: "Anchor布局",
+                layout: "anchor",
+                x: 60,
+                y: 80,
+                renderTo: "anchor",
+                items: [
+                    {xtype: 'panel', title: '75% Width and 25% Height', anchor: '75% 25%'},
+                    {xtype: 'panel', title: 'Offset -300 Width & -200 Height', anchor: '-295 -300'},
+                    {xtype: 'panel', title: 'Mixed Offset and Percent', anchor: '-250 10%'}
+                ]
+            });
+        }
+        function absolute() {
+            Ext.create('Ext.form.Panel', {
+                title: 'Absolute Layout',
+                width: 400,
+                height: 275,
+                layout: 'absolute',
+                url: 'save-form.php',
+                defaultType: 'textfield',
+                items: [
+                    {x: 10, y: 10, xtype: 'label', text: 'Send To:'},
+                    {x: 80, y: 10, name: 'to', anchor: '90%'},
+                    {x: 10, y: 40, xtype: 'label', text: 'Subject:'},
+                    {x: 80, y: 40, name: 'subject', anchor: '90%'},
+                    {x: 0, y: 80, xtype: 'textareafield', name: 'msg', anchor: '100% 100%'}
+                ],
+                renderTo: 'absolute'
+            });
+
+        }
+        function column() {
+            // 所有列都是百分比，他们的和加起来为1
+            Ext.create('Ext.panel.Panel', {
+                title: 'Column Layout',
+                width: 350,
+                height: 250,
+                layout: 'column',
+                items: [{
+                    title: 'Column 1',
+                    columnWidth: 0.25
+                }, {
+                    title: 'Column 2',
+                    columnWidth: 0.55
+                }, {
+                    title: 'Column 3',
+                    columnWidth: 0.20
+                }],
+                renderTo: "column"
+            });
+
+        }
+
+        function border() {
+            var panel = Ext.create("Ext.panel.Panel", {
+                width: 500,
+                height: 300,
+                title: 'Border Layout',
+                layout: 'border',
+                items: [{
+                    title: 'South Region (可调整大小)',
+                    region: 'south',     // 所在的位置
+                    xtype: 'panel',
+                    height: 100,
+                    split: true,         // 允许调整大小
+                    margins: '0 5 5 5'
+                }, {
+                    title: 'West Region (可折叠/展开)',
+                    region: 'west',
+                    xtype: 'panel',
+                    margins: '5 0 0 5',
+                    width: 200,
+                    collapsible: true,   // 可折叠/展开
+                    id: 'west-region-container',
+                    layout: 'fit'
+                }, {
+                    title: 'Center Region (必须)',
+                    region: 'center',     // 必须指定中间区域
+                    xtype: 'panel',
+                    layout: 'fit',
+                    margins: '5 5 0 0'
+                }],
+                renderTo: "border"
+            });
+        }
+        function accordion() {
+            var panel = Ext.create("Ext.panel.Panel", {
+                title: "Accordion Layout",
+                width: 300,
+                height: 300,
+                defaults: {
+                    // 应用到所有子panel
+                    bodyStyle: 'padding:15px'
+                },
+                layout: {
+                    // 布局配置
+                    type: 'accordion',
+                    titleCollapse: false,
+                    animate: true,
+                    activeOnTop: true
+                },
+                items: [{
+                    title: 'Panel 1',
+                    html: 'Panel content!'
+                }, {
+                    title: 'Panel 2',
+                    html: 'Panel content!'
+                }, {
+                    title: 'Panel 3',
+                    html: 'Panel content!'
+                }],
+                renderTo: "accordion"
+            });
+        }
+        function Card() {
+            var navigate = function (panel, direction) {
+                var layout = panel.getLayout();
+                layout[direction]();
+                Ext.getCmp('move-prev').setDisabled(!layout.getPrev());
+                Ext.getCmp('move-next').setDisabled(!layout.getNext());
+            };
+            var panel = Ext.create('Ext.panel.Panel', {
+                title: '示例向导',
+                x: 50,
+                y: 50,
+                width: 300,
+                height: 200,
+                layout: 'card',
+                bodyStyle: 'padding:15px',
+                defaults: {
+                    border: false
+                },
+                bbar: [
+                    {
+                        id: 'move-prev',
+                        text: '上一步',
+                        handler: function (btn) {
+                            navigate(btn.up("panel"), "prev");
+                        },
+                        disabled: true
+                    },
+                    '->',
+                    {
+                        id: 'move-next',
+                        text: '下一步',
+                        handler: function (btn) {
+                            navigate(btn.up("panel"), "next");
+                        }
+                    }
+                ],
+                items: [{
+                    id: 'card-0',
+                    html: '<p>第一步</p>'
+                }, {
+                    id: 'card-1',
+                    html: '<p>第二步</p>'
+                }, {
+                    id: 'card-2',
+                    html: '<p>第三步</p>'
+                }],
+                renderTo: "Card"
+            });
+        }
+        function fit() {
+            var panel = Ext.create("Ext.panel.Panel", {
+                title: 'Fit Layout',
+                x: 30,
+                y: 30,
+                width: 300,
+                height: 150,
+                layout: 'fit',
+                items: {
+                    title: '内部Panel',
+                    html: '内部Panel 的内容',
+                    bodyPadding: 20,
+                    border: false
+                },
+                renderTo: "fit"
+            });
+        }
+
+        function form() {
+            var panel = Ext.create("Ext.panel.Panel", {
+                width: 350,
+                height: 240,
+                title: "FormLayout Panel",
+                layout: 'form',
+                bodyPadding: 5,
+                defaultType: 'textfield',
+                items: [{
+                    fieldLabel: '姓名',
+                    name: 'name',
+                    allowBlank: false
+                }, {
+                    fieldLabel: '公司',
+                    name: 'company'
+                }, {
+                    fieldLabel: 'Email',
+                    name: 'email',
+                    vtype: 'email'
+                }, {
+                    fieldLabel: '年龄',
+                    name: 'age',
+                    xtype: 'numberfield',
+                    minValue: 0,
+                    maxValue: 100
+                }],
+                renderTo: "form"
+            });
+        }
+        function table() {
+            var panel = Ext.create("Ext.panel.Panel", {
+                title: 'Table Layout',
+                width: 300,
+                height: 150,
+                layout: {
+                    type: 'table',
+                    // 列数
+                    columns: 3
+                },
+                defaults: {
+                    bodyStyle: 'padding:20px'
+                },
+                items: [{
+                    html: 'Cell A content',
+                    rowspan: 2  //占用两行
+                }, {
+                    html: 'Cell B content',
+                    colspan: 2  //占用两列
+                }, {
+                    html: 'Cell C content',
+                    cellCls: 'highlight'
+                }, {
+                    html: 'Cell D content'
+                }],
+                renderTo: "table"
+            });
+        }
+        function hbox() {
+            var panel = Ext.create("Ext.panel.Panel", {
+                width: 500,
+                height: 300,
+                title: "HBoxLayout Panel",
+                layout: {
+                    type: 'hbox',
+                    align: 'stretch'
+                },
+                items: [{
+                    xtype: 'panel',
+                    title: 'Inner Panel One',
+                    flex: 2
+                }, {
+                    xtype: 'panel',
+                    title: 'Inner Panel Two',
+                    flex: 1
+                }, {
+                    xtype: 'panel',
+                    title: 'Inner Panel Three',
+                    flex: 1
+                }],
+                renderTo: "hbox"
+            });
+        }
+
+        function vbox() {
+            var panel = Ext.create("Ext.panel.Panel", {
+                width: 500,
+                height: 400,
+                title: "VBoxLayout Panel",
+                layout: {
+                    type: 'vbox',
+                    align: 'center'
+                },
+                items: [{
+                    xtype: 'panel',
+                    title: 'Inner Panel One',
+                    width: 250,
+                    flex: 2
+                },
+                    {
+                        xtype: 'panel',
+                        title: 'Inner Panel Two',
+                        width: 250,
+                        flex: 4
+                    },
+                    {
+                        xtype: 'panel',
+                        title: 'Inner Panel Three',
+                        width: '50%',
+                        flex: 4
+                    }],
+                renderTo: "vbox"
+            });
+        }
+    </script>
+</head>
+<body>
+
+
+<div id="container"></div>
+<div id="anchor"></div>
+<div id="absolute"></div>
+<div id="column"></div>
+<div id="border"></div>
+<div id="accordion"></div>
+<div id="Card"></div>
+<div id="fit"></div>
+<div id="form"></div>
+<div id="table"></div>
+<div id="hbox"></div>
+<div id="vbox"></div>
+
+
+</body>
+</html>
