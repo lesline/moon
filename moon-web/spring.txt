@@ -16,7 +16,6 @@ ApplicationContext实现的默认行为就是在启动时将所有singleton bean
 <bean id="testBean" class="com.fhx.TestBean"> 该bean默认的设置为：
 <bean id="testBean" class="com.fhx.TestBean" lazy-init="false"> 表示spring启动时，立刻进行实例化。
 
-
 【注意：】
 	1. lazy-init 设置只对scop属性为singleton的bean起作用：
            如果一个bean的scope属性为scope=“pototype“时，即使设置了lazy-init="false"，容器启动时不实例化bean，而是调用getBean方法是实例化的
