@@ -1,82 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 	http://www.springframework.org/schema/context    http://www.springframework.org/schema/context/spring-context-3.2.xsd  
 	http://www.springframework.org/schema/tx    http://www.springframework.org/schema/tx/spring-tx-3.2.xsd  
     http://www.springframework.org/schema/aop   http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
-   <context:property-placeholder location="classpath:/config/moon.properties" />
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-		<!-- 基本属性 url、user、password -->
-		<property name="url" value="${jdbc.url}" />
-		<property name="username" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
-		<!-- 配置初始化大小、最小、最大 -->
-		<property name="initialSize" value="1" />
-		<property name="minIdle" value="1" />
-		<property name="maxActive" value="20" />
-		<!-- 配置获取连接等待超时的时间 -->
-		<property name="maxWait" value="60000" />
-		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-		<property name="timeBetweenEvictionRunsMillis" value="60000" />
-		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-		<property name="minEvictableIdleTimeMillis" value="300000" />
-		<property name="validationQuery" value="SELECT 1" />
-		<property name="testWhileIdle" value="true" />
-		<property name="testOnBorrow" value="true" />
-		<property name="testOnReturn" value="false" />
-		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
-		<property name="poolPreparedStatements" value="false" />
-		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
-		<!-- 配置监控统计拦截的filters 防御SQL注入攻击 -->
-		<property name="filters" value="stat,wall" />
-	</bean>
+    <context:property-placeholder location="classpath:/config/moon.properties"/>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- 基本属性 url、user、password -->
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="1"/>
+        <property name="minIdle" value="1"/>
+        <property name="maxActive" value="20"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <property name="validationQuery" value="SELECT 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="false"/>
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="false"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+        <!-- 配置监控统计拦截的filters 防御SQL注入攻击 -->
+        <property name="filters" value="stat,wall"/>
+    </bean>
 
-	<bean id="esqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="mapperLocations" value="classpath:com/moon/dao/*.xml"></property>
-		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
-	</bean>
+    <bean id="esqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="mapperLocations" value="classpath:com/moon/dao/*.xml"></property>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+    </bean>
 
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.moon.dao"/>
-		<property name="sqlSessionFactoryBeanName" value="esqlSessionFactory"/>
-	</bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.moon.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="esqlSessionFactory"/>
+    </bean>
 
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg index="0" ref="esqlSessionFactory" />
-	</bean>
-   <!-- 事务管理 -->
-	<bean id="transactionManager"
-		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	<!-- 用注解来实现事务管理 -->
-	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="esqlSessionFactory"/>
+    </bean>
+    <!-- 事务管理 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 用注解来实现事务管理 -->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
 
-	<!-- 以AspectJ方式 定义 AOP 用于事务拦截 -->
-	<aop:config proxy-target-class="true">
-		<aop:advisor pointcut="execution(* com.moon..service..*Service*.*(..))" advice-ref="txAdvice" />
-	</aop:config>
-	<!-- 基本事务定义,使用transactionManager作事务管理 -->
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<!--默认事务传播属性为PROPAGATION_REQUIRED-->
-			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
-			<tx:method name="save*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
-			<tx:method name="create*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
-			<tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
-			<tx:method name="update*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
-			<tx:method name="modify*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
-			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
-			<tx:method name="search*" propagation="SUPPORTS" read-only="true" />
-			<tx:method name="query*" propagation="SUPPORTS" read-only="true" />
-			<tx:method name="get*" propagation="SUPPORTS" />
-			<tx:method name="*" propagation="SUPPORTS"/>
-		</tx:attributes>
-	</tx:advice>
+    <!-- 以AspectJ方式 定义 AOP 用于事务拦截 -->
+    <aop:config proxy-target-class="true">
+        <aop:advisor pointcut="execution(* com.moon..service..*Service*.*(..))" advice-ref="txAdvice"/>
+    </aop:config>
+    <!-- 基本事务定义,使用transactionManager作事务管理 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--默认事务传播属性为PROPAGATION_REQUIRED-->
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
+            <tx:method name="create*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
+            <tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
+            <tx:method name="modify*" propagation="REQUIRED" rollback-for="Exception,RuntimeException"/>
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="search*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="query*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="get*" propagation="SUPPORTS"/>
+            <tx:method name="*" propagation="SUPPORTS"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--
+     REQUIRED (默认)    业务方法需要在事务中运行,如果方法运行的时候已经开启事务,就加入事务,否则创建新的事务
+     NOT_SUPPORTED    声明方法不需要开启事务.如果已经开启事务后调用该方法.则先挂起该事务,方法执行完毕后,事务恢复
+     REQUIRES_NEW     不管是否存在事务,都另行开启新的事务.如果先前已经开启事务,挂起原先事务.创建新的事务.
+                      新的事务执行结束后,恢复原先事务
+     MANDATORY    只能在已经存在的事务中执行,不能自行创建事务,如果在没有开启事务的环境下调用,容器抛出例外
+     SUPPORTS     墙头草,有事务就在事务中执行.没事务就在没事务的环境下执行
+     NEVER    绝对不能在事务中执行.如果执行.抛出例外
+     NESTED   如果有事务存在,开启一个新事务嵌套在上层事务中.开启的新事务具有自己独立的回滚点.新事务的回滚不会对外部事务造成影响,
+              但是外部事务的提交会直接提交嵌套事务
+              如果没有事务存在,则按照REQUIRED属性执行,该属性只对DataSourceTransationManager事务管理器有效
+    -->
 
 </beans>
