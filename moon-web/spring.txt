@@ -7,7 +7,6 @@ spring中bean的scope属性，有如下5种类型：
     globalSession表示在全局会话内有效（只适用于web应用）
 
 
-
 @Singleton
 @Lazy(false)
 @Component
@@ -15,7 +14,6 @@ ApplicationContext实现的默认行为就是在启动时将所有singleton bean
 
 <bean id="testBean" class="com.fhx.TestBean"> 该bean默认的设置为：
 <bean id="testBean" class="com.fhx.TestBean" lazy-init="false"> 表示spring启动时，立刻进行实例化。
-
 
 【注意：】
 	1. lazy-init 设置只对scop属性为singleton的bean起作用：

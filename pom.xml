@@ -39,7 +39,6 @@
         <jetty-util.version>7.0.0.pre5</jetty-util.version>
     </properties>
 
-
     <dependencyManagement>
 
         <dependencies>

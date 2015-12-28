@@ -15,7 +15,6 @@
     <version>${module.version}</version>
     <packaging>war</packaging>
 
-
     <dependencies>
 
         <dependency>
