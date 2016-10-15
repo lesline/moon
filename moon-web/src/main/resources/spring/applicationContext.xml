@@ -65,8 +65,10 @@
     <context:component-scan>包含以上功能外，还具有自动将带有@Component, @Repository, @Service, and @Controller 等注解的对象注册到spring容器中的功能
     -->
     <import resource="classpath:/spring/moon-transaction.xml"/>
+    <import resource="classpath:/spring/moon-dubbo-provider.xml"/>
     <!--<import resource="classpath:/spring/moon-server.xml"/>-->
     <!--<import resource="classpath:/spring/spring-quartz.xml"/>-->
+
 
 
 </beans>

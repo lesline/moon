@@ -23,6 +23,7 @@ mvn process-resources
 7.打包+装配+安装二进制
 mvn install -Dmaven.ext.skip=true
 
+
 8.依赖关系查询
 mvn dependency:tree
 mvn dependency:analyze
