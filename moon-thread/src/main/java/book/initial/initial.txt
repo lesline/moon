@@ -1,0 +1,26 @@
+	·	发布对象方法
+	·	正确
+	·	1.使用同步
+	SafeLazyInitialization
+	·	2.提前初始化
+	EagerInitialization
+	·	静态的初始化器：
+public static Holder holder = new Holder(42);
+静态初始化器由JVM在类的初始化阶段执行。由于在JVM内部存在着同步机制，因此通过这种方式初始化的任何对象都可以被安全地发布。
+	·	3.延长初始化占位类模式
+	ResourceFactory
+	·	before原则：
+                    1.程序次序规则：在一个线程内，按照程序代码的顺序，书写在前面的操作先行发生与书写在后面的操作。
+                    2.监视器法则：一个锁的unlock操作先行发生于“后面”对同一个锁的lock操作。这里的“后面”是指时间上的先后顺序。
+                    Monitor lock rule. An unlock on a monitor lock happens-before every subsequent lock on that same monitor lock。
+                    3. volatile变量法则：写volatile变量一定先行发生于后续对它的读之前。
+                    4.线程的启动规则：Thread对象的start()方法先行发生于此线程的每一个动作。
+                    5.线程中断规则：对线程的interrupt()方法的调用先行发生于被中断线程的代码检测。
+                    6.对象终结原则：一个对象的初始化完成（构造函数执行完成）先行发生与它的finalize()方法的开始。
+                    7.传递性：A发生在B之前，B发生在C之前，A一定发生在C之前。
+	·	错误
+	·	延迟初始化
+	UnsafeLazyInitialization
+	·	双重检查加锁
+	DoubleCheckedLocking
+
