@@ -4,6 +4,8 @@ eg:base.fx
 
 枚举：将一组相关的属性统一放在一个类中
 eg:base.enum1.TestEnum
+可以实现单例:base.enum1.Singleton
+
 
 
 Java参数传递方式：值传递
